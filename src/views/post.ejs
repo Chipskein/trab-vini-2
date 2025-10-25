@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%-include ('component/header') %>
+
+  <body class="bg-gray-50">
+    <%-include ('component/navbar') %>
+
+    <main class="p-6">
+      <div
+        class="max-w-2xl mx-auto bg-white rounded-lg shadow mb-6 overflow-hidden"
+      >
+        <% if (post.imageUri) { %>
+        <img
+          src="<%= post.imageUri %>"
+          alt="Pin Image"
+          class="w-full rounded-t-lg"
+        />
+        <% } %>
+
+        <div class="p-6">
+          <!-- Post Title & Metadata -->
+          <h1 class="font-bold text-2xl text-gray-900 mb-2">
+            <%= post.title %>
+          </h1>
+          <p class="text-sm text-gray-500 mb-4">
+            Posted by
+            <span class="font-semibold">
+              <%= post.usuario?.name || 'Anonymous' %>
+            </span>
+            on <%= post.createdAt.toLocaleDateString() %>
+          </p>
+
+          <!-- Post Description -->
+          <p class="text-gray-700 mb-6"><%= post.description %></p>
+
+          <!-- Comments Section -->
+          <div class="border-t border-gray-200 pt-4">
+            <h2 class="text-lg font-semibold text-gray-800 mb-3">
+              Comments (<%= post.comments?.length || 0 %>)
+            </h2>
+
+            <% if (post.comments && post.comments.length> 0) { %>
+            <ul class="space-y-3 max-h-96 overflow-y-auto pr-2">
+              <% post.comments.forEach(function(comment) { %>
+              <li class="text-sm text-gray-700 bg-gray-50 p-3 rounded-md">
+                <span class="font-semibold">
+                  <%= comment.usuario?.name || 'Anonymous' %>:
+                </span>
+                <%= comment.description || '(no text)' %>
+              </li>
+              <% }); %>
+            </ul>
+            <% } else { %>
+            <p class="text-sm text-gray-400 italic">No comments yet.</p>
+            <% } %>
+          </div>
+
+          <!-- Add Comment Form -->
+          <form
+            action="/api/posts"
+            method="POST"
+            class="mt-4 border-t border-gray-200 pt-4"
+          >
+            <input type="hidden" name="parentId" value="<%= post.id %>" />
+            <div class="flex items-center gap-2">
+              <input
+                type="text"
+                name="description"
+                placeholder="Add a comment..."
+                required
+                class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400"
+              />
+              <button
+                type="submit"
+                class="px-4 py-2 bg-red-500 text-white text-sm rounded-lg hover:bg-red-600 transition"
+              >
+                Post
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

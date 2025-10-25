@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%-include ('component/header') %>
+  <body class="bg-gray-50">
+
+    <%-include ('component/navbar') %>
+
+    <!-- Content -->
+    <main class="p-6">
+      <h1 class="text-3xl font-bold text-gray-800 mb-6">Explore Pins</h1>
+
+      <div class="mb-4 flex gap-2 items-center">
+        <label for="sort" class="font-semibold text-gray-700">Sort by:</label>
+        <select id="sort" class="border border-gray-300 rounded px-2 py-1">
+          <option value="createdAt|desc">Newest</option>
+          <option value="createdAt|asc">Oldest</option>
+          <option value="commentsCount|desc">Most Commented</option>
+          <option value="commentsCount|asc">Less Commented</option>
+        </select>
+      </div>
+
+      <!-- Masonry-like grid -->
+      <div
+        class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4"
+      >
+        <% posts.forEach(function(post) { %>
+          <%- include('component/card', { post: post }) %>
+        <% }); %>
+      </div>
+    </main>
+    <div id="loader" class="hidden text-center py-4">Loading...</div>
+    <script src="/js/feed.js"></script>
+  </body>
+</html>
