@@ -26,15 +26,12 @@ function onSortChange(event) {
 }
 
 function createPostDiv(post) {
-  // Main container
   const container = document.createElement("div");
   container.className =
     "break-inside-avoid bg-white rounded-lg shadow mb-4 overflow-hidden";
 
-  // Content wrapper
   let contentWrapper;
 
-  // If post has image
   if (post.imageUri) {
     const link = document.createElement("a");
     link.href = `/web/posts/${post.id}`;
@@ -47,30 +44,25 @@ function createPostDiv(post) {
     link.appendChild(img);
     container.appendChild(link);
 
-    // Create content div inside the link
     contentWrapper = document.createElement("div");
     contentWrapper.className = "p-4";
     link.appendChild(contentWrapper);
   } else {
-    // No image: content directly in container
     contentWrapper = document.createElement("div");
     contentWrapper.className = "p-4";
     container.appendChild(contentWrapper);
   }
 
-  // Title
   const title = document.createElement("h2");
   title.className = "font-semibold text-lg text-gray-900 mb-2";
   title.textContent = post.title || "";
   contentWrapper.appendChild(title);
 
-  // Description
   const desc = document.createElement("p");
   desc.className = "text-gray-700 mb-3";
   desc.textContent = post.description || "";
   contentWrapper.appendChild(desc);
 
-  // Comments
   if (post.comments && post.comments.length > 0) {
     const commentsDiv = document.createElement("div");
     commentsDiv.className = "border-t border-gray-200 pt-2 mt-2";
@@ -107,7 +99,6 @@ function createPostDiv(post) {
     contentWrapper.appendChild(noComments);
   }
 
-  // Comment form (outside link)
   const form = document.createElement("form");
   form.action = "/api/posts";
   form.method = "POST";
