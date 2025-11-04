@@ -40,7 +40,6 @@ class PostService {
 
         validatedBody.usuarioId = user.id;
 
-        console.log(validatedBody);
         const post = await this.prismaClient.post.create({
             data: validatedBody
         });
